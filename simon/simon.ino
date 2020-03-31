@@ -22,6 +22,7 @@ const int SIZE = 4;
 const int ROUNDS = 20;
 int sequence[ROUNDS];
 int n = 0;
+bool ok = true;
 
 void setup(){
   Serial.begin(9600);
@@ -54,9 +55,47 @@ void printSequence(){
   }
 }
 
+bool readButtons(){
+  for (int j=0; j<n && ok; j++){
+    int input[]={0,0,0,0};
+    while(!input[GREEN] 
+          && !input[RED] 
+          && !input[BLUE] 
+          && !input[YELLOW]){
+      for(int i=0; i<SIZE; i++){
+        input[i] = digitalRead(BUTTONS[i]);
+        if(input[i]){
+          printLed(LEDS[i]);
+        } 
+      }
+    }
+    
+    if(!input[sequence[j]]){
+      ok=false;
+    }
+  }
+  return ok;
+}
+
 void loop(){
-  Serial.println("Nueva secuencia: ");
+  Serial.println("**********");
+  ok = true;
   randomSequence();
-  n=5;
-  printSequence();
+  while(ok && n<ROUNDS){
+    Serial.print("ronda ");
+    Serial.println(n);
+    printSecuence();
+    if(readButtons()){
+      Serial.println("btn ok");
+      n++;
+    }else{
+      ok=false;
+    }
+  }
+  if(ok){
+    Serial.println("WIN!!!!!");
+  }else{
+    Serial.println("FAIL!!!!!");
+  }
+  delay(2000);
 }
