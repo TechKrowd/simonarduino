@@ -81,10 +81,10 @@ void loop(){
   Serial.println("**********");
   ok = true;
   randomSequence();
-  while(ok && n<ROUNDS){
+  while(ok && n<=ROUNDS){
     Serial.print("ronda ");
     Serial.println(n);
-    printSecuence();
+    printSequence();
     if(readButtons()){
       Serial.println("btn ok");
       n++;
