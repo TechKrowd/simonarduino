@@ -77,6 +77,25 @@ bool readButtons(){
   return ok;
 }
 
+void printWin(){
+  for(int i=0; i<3; i++){
+    for(int j=0; j<SIZE; j++){
+      digitalWrite(LEDS[j], HIGH);
+      delay(500);
+      digitalWrite(LEDS[j], LOW);
+    }
+  }
+}
+
+void printFail(){
+  for(int i=0; i<3; i++){
+    digitalWrite(LED_RED, HIGH);
+    delay(500);
+    digitalWrite(LED_RED, LOW);
+    delay(500);
+  }
+}
+
 void loop(){
   Serial.println("**********");
   ok = true;
@@ -94,8 +113,10 @@ void loop(){
   }
   if(ok){
     Serial.println("WIN!!!!!");
+    printWin();
   }else{
     Serial.println("FAIL!!!!!");
+    printFail();
   }
   delay(2000);
 }
